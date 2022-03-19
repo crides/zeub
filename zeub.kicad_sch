@@ -2776,6 +2776,9 @@
     (path "/79d57789-5a81-4689-bd1f-5ca26896f57e/6848a4d9-a435-4d91-9bfe-bd81760f5354"
       (reference "#PWR035") (unit 1) (value "GND") (footprint "")
     )
+    (path "/79d57789-5a81-4689-bd1f-5ca26896f57e/3d5d272e-6d50-4065-ae4a-d62bb655b1db"
+      (reference "#PWR036") (unit 1) (value "GND") (footprint "")
+    )
     (path "/0471f725-0238-4fe5-929e-b81775548504/2fec1d57-5710-4eab-a2d5-665051ab5847"
       (reference "#PWR0101") (unit 1) (value "GND") (footprint "")
     )
@@ -2823,6 +2826,9 @@
     )
     (path "/515419b6-139b-41f3-ba3c-40ab5992146c"
       (reference "C1") (unit 1) (value "10nF") (footprint "Capacitor_SMD:C_0603_1608Metric")
+    )
+    (path "/79d57789-5a81-4689-bd1f-5ca26896f57e/9545bfbf-48dd-4146-8d60-6fa543402f0a"
+      (reference "C2") (unit 1) (value "1uF") (footprint "Capacitor_SMD:C_0603_1608Metric")
     )
     (path "/0471f725-0238-4fe5-929e-b81775548504/14aae858-0188-4987-9e13-31bcff431071"
       (reference "D1") (unit 1) (value "white") (footprint "Diode_SMD:D_0603_1608Metric")
