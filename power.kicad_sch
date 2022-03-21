@@ -1598,7 +1598,7 @@
     (property "Reference" "C2" (id 0) (at 161.29 27.94 0)
       (effects (font (size 1.27 1.27)) (justify left))
     )
-    (property "Value" "" (id 1) (at 161.29 30.48 0)
+    (property "Value" "1uF" (id 1) (at 161.29 30.48 0)
       (effects (font (size 1.27 1.27)) (justify left))
     )
     (property "Footprint" "Capacitor_SMD:C_0603_1608Metric" (id 2) (at 158.4452 33.02 0)

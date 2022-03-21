@@ -3,4 +3,5 @@
   (lib (name "misc")(type "KiCad")(uri "${KIPRJMOD}/kleeb/misc.pretty")(options "")(descr ""))
   (lib (name "mcu")(type "KiCad")(uri "${KIPRJMOD}/kleeb/mcu.pretty")(options "")(descr ""))
   (lib (name "display")(type "KiCad")(uri "${KIPRJMOD}/kleeb/display.pretty")(options "")(descr ""))
+  (lib (name "ic")(type "KiCad")(uri "${KIPRJMOD}/kleeb/ic.pretty")(options "")(descr ""))
 )
