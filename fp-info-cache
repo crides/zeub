@@ -1,4 +1,4 @@
-19858391171967929
+19861687746339535
 Battery
 BatteryHolder_Bulgin_BX0036_1xC
 Bulgin Battery Holder, BX0036, Battery Type C (https://www.bulgin.com/products/pub/media/bulgin/data/Battery_holders.pdf)
@@ -84270,8 +84270,8 @@ CMS1609
 
 
 0
-4
-4
+2
+2
 misc
 auklet-cover-mount
 
@@ -84342,6 +84342,13 @@ jlc-tooling-hole
 0
 0
 0
+misc
+molex-503182-1852
+
+
+0
+15
+11
 nice-nano-kicad
 nice_nano
 
@@ -84349,6 +84356,13 @@ nice_nano
 0
 27
 27
+switch
+EVQWGD001
+
+
+0
+6
+6
 switch
 SKRHA-boss
 
