@@ -1,0 +1,23 @@
+config RTT_LOG
+    bool "Enable RTT logging"
+    default n
+    select LOG
+    select DEBUG
+    select CONSOLE
+    select USE_SEGGER_RTT
+    select RTT_CONSOLE
+
+config NEOPIXEL
+    bool "Enable neopixel"
+    default y
+    select SPI
+    select NRFX_SPIM0
+    select LED_STRIP
+    select WS2812_STRIP
+
+module = ZEUB
+module-str = zeub
+source "subsys/logging/Kconfig.template.log_config"
+
+rsource "Kconfig.defconfig"
+source "Kconfig.zephyr"

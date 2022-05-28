@@ -1,0 +1,14 @@
+# Zeub board configuration
+
+# Copyright (c) 2020 Tobias Svehagen
+# SPDX-License-Identifier: Apache-2.0
+
+if BOARD_ZEUB
+
+config BOARD
+	default "zeub"
+
+config BT_CTLR
+	default BT
+
+endif # BOARD_ZEUB

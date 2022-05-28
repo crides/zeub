@@ -1,0 +1,11 @@
+config NFCT_PINS_AS_GPIOS
+    default y
+
+config LED
+    default y
+
+config PWM
+    default y
+
+config LED_PWM
+    default y
