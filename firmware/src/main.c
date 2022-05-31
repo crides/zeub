@@ -2,16 +2,15 @@
 #include <drivers/gpio.h>
 #include <drivers/led.h>
 #include <drivers/kscan.h>
+#include <drivers/sensor.h>
 
 #include <logging/log.h>
 LOG_MODULE_REGISTER(zeub, CONFIG_ZEUB_LOG_LEVEL);
 
-#define LED_STRIP DT_NODELABEL(led_strip)
-
 #define WHITE_BRIGHT 0
 #define YELLOW_BRIGHT 20
 
-static const struct device *led_strip = DEVICE_DT_GET(LED_STRIP),
+static const struct device *led_strip = DEVICE_DT_GET(DT_NODELABEL(led_strip)),
              *buttons = DEVICE_DT_GET(DT_NODELABEL(buttons)),
              *roller = DEVICE_DT_GET(DT_NODELABEL(roller));
 static uint8_t channel = 0;
@@ -41,8 +40,11 @@ enum button {
 };
 
 static void handle_button(const struct device *dev, enum button button, bool pressed) {
+    int ret;
     if (pressed) {
         switch (button) {
+        case SEL_PUSH:
+            break;
         case ENC_PUSH:
             channel = !channel;
             break;
@@ -57,6 +59,8 @@ static void handle_button(const struct device *dev, enum button button, bool pre
                 brights[channel * 2 + 1] -= 5;
             }
             set_bright();
+            break;
+        default:
             break;
         }
     }

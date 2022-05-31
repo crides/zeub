@@ -20,7 +20,6 @@ LOG_MODULE_REGISTER(EC11, CONFIG_SENSOR_LOG_LEVEL);
 
 int ec11_config_int(const struct device *dev, bool enable) {
     int ret;
-    struct ec11_data *data = dev->data;
     const struct ec11_config *cfg = dev->config;
 
     LOG_DBG("enabled %s", (enable ? "true" : "false"));
@@ -69,7 +68,6 @@ static void ec11_b_gpio_callback(const struct device *dev, struct gpio_callback 
 }
 
 static int ec11_get_ab_state(const struct device *dev) {
-    struct ec11_data *drv_data = dev->data;
     const struct ec11_config *drv_cfg = dev->config;
 
     return (gpio_pin_get_dt(&drv_cfg->a_gpio) << 1) | gpio_pin_get_dt(&drv_cfg->b_gpio);
@@ -182,7 +180,7 @@ int ec11_init_interrupt(const struct device *dev) {
     k_sem_init(&drv_data->gpio_sem, 0, UINT_MAX);
 
     k_thread_create(&drv_data->thread, drv_data->thread_stack, CONFIG_EC11_THREAD_STACK_SIZE,
-                    (k_thread_entry_t)ec11_thread, dev, 0, NULL,
+                    (k_thread_entry_t)ec11_thread, (void *) dev, 0, NULL,
                     K_PRIO_COOP(CONFIG_EC11_THREAD_PRIORITY), 0, K_NO_WAIT);
 #elif defined(CONFIG_EC11_TRIGGER_GLOBAL_THREAD)
     k_work_init(&drv_data->work, ec11_work_cb);
