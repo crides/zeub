@@ -1,0 +1,15 @@
+manifest:
+  remotes:
+    - name: petejohanson
+      url-base: https://github.com/petejohanson
+  projects:
+    - name: zephyr
+      remote: petejohanson
+      revision: v3.0.0+zmk-fixes
+      clone-depth: 1
+      import:
+        name-allowlist:
+          - lvgl
+          - segger
+          - hal_nordic
+          - cmsis

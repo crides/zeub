@@ -25,4 +25,7 @@ fp-info-cache
 *.xml
 *.csv
 
-build
+build/
+zephyr/
+modules/
+.west/

@@ -8,7 +8,22 @@ config ZEUB
     select SENSOR
     select I2C      #???
     select TMP116   #???
+
+config ZEUB_UI
+    bool
+    default y
+    select DISPLAY
     select LVGL
+    select LVGL_USE_LABEL
+	select LVGL_THEMES
+	select LVGL_THEME_MONO
+
+config LVGL_BITS_PER_PIXEL
+	default 1
+
+choice LVGL_COLOR_DEPTH
+	default LVGL_COLOR_DEPTH_1
+endchoice
 
 config RTT_LOG
     bool "Enable RTT logging"
@@ -35,9 +50,9 @@ config ZEUB_DISPLAY_THREAD_PRIORITY
     int "Thread priority for UI thread/queue"
     default 5
 
-config DISPLAY_INIT_PRIORITY
-	int "Display/UI Init Priority"
-	default 50
+config ZEUB_UI_INIT_PRIORITY
+    int "Init priority for UI stuff"
+    default 60
 
 config TEMP_UPDATE_INTERVAL_MS
     int "Interval in ms to update temperature display"
