@@ -677,7 +677,7 @@
       "idf": "",
       "netlist": "",
       "specctra_dsn": "",
-      "step": "",
+      "step": "zeub.step",
       "vrml": ""
     },
     "page_layout_descr_file": ""

@@ -17398,7 +17398,7 @@
     (pad "3" smd rect (at -3.15 -2.3 270) (size 2 1.5) (layers "B.Cu" "B.Paste" "B.Mask")
       (net 74 "+12V") (pinfunction "VI") (pintype "power_in") (tstamp 5881ed86-df30-4e4e-8b2f-3f366fe34fe0))
     (pad "4" smd rect (at 3.15 0 270) (size 2 3.8) (layers "B.Cu" "B.Paste" "B.Mask") (tstamp 481df5a5-c16e-4a15-895d-5ef59da9bad2))
-    (model "${KICAD6_3DMODEL_DIR}/Package_TO_SOT_SMD.3dshapes/SOT-223.wrl"
+    (model "${KICAD6_3DMODEL_DIR}/Package_TO_SOT_SMD.3dshapes/SOT-223.step"
       (offset (xyz 0 0 0))
       (scale (xyz 1 1 1))
       (rotate (xyz 0 0 0))
@@ -17780,7 +17780,7 @@
       (net 72 "unconnected-(J3-PadS1)") (pinfunction "SHIELD") (pintype "passive+no_connect") (tstamp 56687f0e-8683-45f5-b457-02fdd7f727e7))
     (pad "S1" thru_hole oval (at 4.32 -1.05 90) (size 1 1.6) (drill oval 0.6 1.2) (layers *.Cu *.Mask)
       (net 72 "unconnected-(J3-PadS1)") (pinfunction "SHIELD") (pintype "passive+no_connect") (tstamp 61217b86-1035-41f0-8d0c-cd50522701cb))
-    (model "${KICAD6_3DMODEL_DIR}/Connector_USB.3dshapes/USB_C_Receptacle_HRO_TYPE-C-31-M-12.wrl"
+    (model "${KIPRJMOD}/kleeb/models/hro-type-c-31-m-12.step"
       (offset (xyz 0 0 0))
       (scale (xyz 1 1 1))
       (rotate (xyz 0 0 0))
@@ -18128,10 +18128,10 @@
       (net 60 "GND") (pintype "passive") (tstamp d8b5dda7-502f-45e3-af76-2eeb5e0f41e3))
     (pad "3" thru_hole circle (at 4.7 -3 90) (size 2.6 2.6) (drill 1.6) (layers *.Cu *.Mask)
       (net 130 "unconnected-(J4-Pad3)") (pintype "passive+no_connect") (tstamp 58b9d6a4-2559-4424-bb59-d1068c3b883a))
-    (model "${KICAD6_3DMODEL_DIR}/Connector_BarrelJack.3dshapes/BarrelJack_CUI_PJ-102AH_Horizontal.wrl"
-      (offset (xyz 0 0 0))
+    (model "${KIPRJMOD}/kleeb/models/PJ-102AH.step"
+      (offset (xyz 0 -13.7 6.5))
       (scale (xyz 1 1 1))
-      (rotate (xyz 0 0 0))
+      (rotate (xyz -90 0 90))
     )
   )
 
@@ -18741,7 +18741,7 @@
       (net 60 "GND") (pinfunction "-") (pintype "passive") (tstamp a6b62418-d883-49e7-b7c6-cc618d9cdaed))
     (pad "MP" smd roundrect (at -3.35 -2.9 270) (size 1.5 3.4) (layers "B.Cu" "B.Paste" "B.Mask") (roundrect_rratio 0.1666673333) (tstamp 9c4e566c-91aa-4c17-9c87-06876158ec89))
     (pad "MP" smd roundrect (at 3.35 -2.9 270) (size 1.5 3.4) (layers "B.Cu" "B.Paste" "B.Mask") (roundrect_rratio 0.1666673333) (tstamp f3362272-2393-407b-b0a5-e83ea67e9609))
-    (model "${KICAD6_3DMODEL_DIR}/Connector_JST.3dshapes/JST_PH_S2B-PH-SM4-TB_1x02-1MP_P2.00mm_Horizontal.wrl"
+    (model "${KIPRJMOD}/kleeb/models/JST-PH-S2B-R.step"
       (offset (xyz 0 0 0))
       (scale (xyz 1 1 1))
       (rotate (xyz 0 0 0))
