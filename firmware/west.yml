@@ -1,11 +1,11 @@
 manifest:
   remotes:
-    - name: petejohanson
-      url-base: https://github.com/petejohanson
+    - name: zephyrproject-rtos
+      url-base: https://github.com/zephyrproject-rtos
   projects:
     - name: zephyr
-      remote: petejohanson
-      revision: v3.0.0+zmk-fixes
+      remote: zephyrproject-rtos
+      revision: main
       clone-depth: 1
       import:
         name-allowlist:
@@ -13,3 +13,4 @@ manifest:
           - segger
           - hal_nordic
           - cmsis
+          - tinycrypt

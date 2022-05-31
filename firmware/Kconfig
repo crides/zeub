@@ -14,16 +14,33 @@ config ZEUB_UI
     default y
     select DISPLAY
     select LVGL
-    select LVGL_USE_LABEL
-	select LVGL_THEMES
-	select LVGL_THEME_MONO
+	select LV_USE_THEME_BASIC
+    select LV_USE_LABEL
 
-config LVGL_BITS_PER_PIXEL
-	default 1
+config ZEUB_BLE
+    bool
+    default y
+    select BT
+    select BT_SETTINGS
+    select BT_PERIPHERAL
+    select BT_GATT_CLIENT
+    select BT_SMP
+    # select BT_SMP_SC_PAIRING_ONLY
+    select FLASH
+    select FLASH_MAP
+    select SETTINGS
+    select NVS
 
-choice LVGL_COLOR_DEPTH
-	default LVGL_COLOR_DEPTH_1
+choice SETTINGS_BACKEND
+    default SETTINGS_NVS
 endchoice
+
+# config LVGL_BITS_PER_PIXEL
+# 	default 1
+
+# choice LVGL_COLOR_DEPTH
+# 	default LVGL_COLOR_DEPTH_1
+# endchoice
 
 config RTT_LOG
     bool "Enable RTT logging"
@@ -56,21 +73,29 @@ config ZEUB_UI_INIT_PRIORITY
 
 config TEMP_UPDATE_INTERVAL_MS
     int "Interval in ms to update temperature display"
-    default 1000
+    default 3000
 
-config LVGL_FONT_MONTSERRAT_16
-    default y
+config TIME_UPDATE_INTERVAL_S
+    int "Interval in seconds to update temperature display"
+    default 10
 
-choice LVGL_THEME_DEFAULT_FONT_NORMAL
-    default LVGL_THEME_DEFAULT_FONT_NORMAL_MONTSERRAT_16
-endchoice
+# config LVGL_FONT_MONTSERRAT_16
+#     default y
+
+# choice LVGL_THEME_DEFAULT_FONT_NORMAL
+#     default LVGL_THEME_DEFAULT_FONT_NORMAL_MONTSERRAT_16
+# endchoice
+
+config BLE_INIT_PRIORITY
+	int "BLE Init Priority"
+	default 50
 
 DT_OLED_PATH := $(dt_nodelabel_path,oled)
 
-config LVGL_HOR_RES_MAX
-    default 128
+config LV_Z_HOR_RES_MAX
+    default $(dt_node_int_prop_int,$(DT_OLED_PATH),width)
 
-config LVGL_VER_RES_MAX
+config LV_Z_VER_RES_MAX
     default $(dt_node_int_prop_int,$(DT_OLED_PATH),height)
 
 module = ZEUB

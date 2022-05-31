@@ -1,12 +1,16 @@
 #include <device.h>
 #include <drivers/display.h>
 #include <drivers/sensor.h>
+#include <sys/timeutil.h>
 #include <lvgl.h>
 
 #include <logging/log.h>
 LOG_MODULE_REGISTER(zeub_disp, CONFIG_ZEUB_LOG_LEVEL);
 
 #define TICK_MS 10
+
+const char *months[12] = {"Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"};
+const char *weekdays[7] = {"Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"};
 
 static const struct device *oled = DEVICE_DT_GET(DT_NODELABEL(oled)),
              *temp_sensor = DEVICE_DT_GET(DT_NODELABEL(tmp117));
@@ -34,7 +38,6 @@ static K_WORK_DEFINE(init_ui_work, init_ui);
 static struct k_work_q display_work_q;
 
 static void display_timer_cb() {
-    lv_tick_inc(TICK_MS);
     k_work_submit_to_queue(&display_work_q, &display_tick_work);
 }
 
@@ -59,36 +62,39 @@ static void temp_update_work_cb(struct k_work *work) {
     lv_label_set_text_fmt(screen.temp, "temp: %d.%02d C", temp.val1, temp.val2 / 10000);
 }
 
+void disp_update_time(struct tm *time) {
+    lv_label_set_text_fmt(screen.time, "%s %02d %02d:%02d", months[time->tm_mon - 1], time->tm_mday, time->tm_hour, time->tm_min);
+}
+
 LV_FONT_DECLARE(iosevka_16);
 /* LV_FONT_DECLARE(iosevka_8); */
 lv_style_t style;
 
 static void init_ui() {
-    LOG_WRN("init_ui");
-    screen.screen = lv_obj_create(NULL, NULL);
+    screen.screen = lv_obj_create(NULL);
     if (screen.screen == NULL) {
         LOG_ERR("ui screen");
         return;
     }
-    screen.time = lv_label_create(screen.screen, NULL);
+    screen.time = lv_label_create(screen.screen);
     if (screen.time == NULL) {
         LOG_ERR("ui time");
         return;
     }
-    screen.temp = lv_label_create(screen.screen, NULL);
+    screen.temp = lv_label_create(screen.screen);
     if (screen.temp == NULL) {
         LOG_ERR("ui temp");
         return;
     }
-    lv_style_set_text_font(&style, LV_STATE_DEFAULT, &iosevka_16);
-    lv_style_set_bg_color(&style, LV_STATE_DEFAULT, LV_COLOR_BLACK);
-    lv_style_set_text_color(&style, LV_STATE_DEFAULT, LV_COLOR_WHITE);
-    lv_obj_add_style(screen.screen, LV_LABEL_PART_MAIN, &style);
-    lv_obj_set_width(screen.time, CONFIG_LVGL_HOR_RES_MAX);
-    lv_obj_align(screen.time, screen.screen, LV_ALIGN_IN_TOP_LEFT, 0, 0);
+    lv_style_set_text_font(&style, &iosevka_16);
+    /* lv_style_set_text_color(&style, lv_color_white()); */
+    /* lv_style_set_bg_color(&style, lv_color_black()); */
+    lv_obj_add_style(screen.screen, &style, LV_PART_MAIN);
+    lv_obj_set_width(screen.time, CONFIG_LV_Z_HOR_RES_MAX);
+    lv_obj_align(screen.time, LV_ALIGN_TOP_MID, 0, 0);
     lv_label_set_text(screen.time, "");
-    lv_obj_set_width(screen.temp, CONFIG_LVGL_HOR_RES_MAX);
-    lv_obj_align(screen.temp, screen.screen, LV_ALIGN_IN_BOTTOM_LEFT, 0, 0);
+    lv_obj_set_width(screen.temp, CONFIG_LV_Z_HOR_RES_MAX);
+    lv_obj_align(screen.temp, LV_ALIGN_BOTTOM_MID, 0, 0);
 
     lv_scr_load(screen.screen);
 }
