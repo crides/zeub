@@ -1,32 +1,23 @@
-#include <device.h>
-#include <drivers/gpio.h>
-#include <drivers/led.h>
-#include <drivers/kscan.h>
-#include <drivers/sensor.h>
+#include <zephyr/device.h>
+#include <zephyr/kernel.h>
+#include <zephyr/drivers/gpio.h>
+#include <zephyr/drivers/kscan.h>
+#include <zephyr/drivers/sensor.h>
 
-#include <logging/log.h>
+#include <zephyr/logging/log.h>
 LOG_MODULE_REGISTER(zeub, CONFIG_ZEUB_LOG_LEVEL);
 
-#define WHITE_BRIGHT 0
-#define YELLOW_BRIGHT 20
+#include "disp.h"
+#include "zeub_time.h"
+#include "strip.h"
 
-static const struct device *led_strip = DEVICE_DT_GET(DT_NODELABEL(led_strip)),
-             *buttons = DEVICE_DT_GET(DT_NODELABEL(buttons)),
+static const struct device *buttons = DEVICE_DT_GET(DT_NODELABEL(buttons)),
              *roller = DEVICE_DT_GET(DT_NODELABEL(roller));
-static uint8_t channel = 0;
-static uint8_t brights[4] = {WHITE_BRIGHT, YELLOW_BRIGHT, 0, 0};
 
-static int set_bright() {
-    int ret;
-    for (uint8_t i = 0; i < sizeof(brights); i ++) {
-        ret = led_set_brightness(led_strip, i, brights[i]);
-        if (ret < 0) {
-            LOG_ERR("set strip %d: %d", i, ret);
-            return ret;
-        }
-    }
-    return 0;
-}
+static void minute_timer_sync_work_cb(struct k_work *work);
+static void minute_timer_cb();
+static K_WORK_DELAYABLE_DEFINE(minute_timer_sync_work, minute_timer_sync_work_cb);
+static K_TIMER_DEFINE(minute_timer, minute_timer_cb, NULL);
 
 enum button {
     ENC_PUSH = 0,
@@ -40,6 +31,7 @@ enum button {
 };
 
 static void handle_button(const struct device *dev, enum button button, bool pressed) {
+    static uint8_t channel = 1;
     int ret;
     if (pressed) {
         switch (button) {
@@ -49,16 +41,10 @@ static void handle_button(const struct device *dev, enum button button, bool pre
             channel = !channel;
             break;
         case ROLL_UP:
-            if (brights[channel * 2 + 1] < 100) {
-                brights[channel * 2 + 1] += 5;
-            }
-            set_bright();
+            change_bright(2 + channel, 1);
             break;
         case ROLL_DOWN:
-            if (brights[channel * 2 + 1] > 0) {
-                brights[channel * 2 + 1] -= 5;
-            }
-            set_bright();
+            change_bright(2 + channel, -1);
             break;
         default:
             break;
@@ -76,18 +62,35 @@ static inline void roller_cb(const struct device *dev, uint32_t row, uint32_t co
     handle_button(dev, col + ROLL_UP, pressed);
 }
 
+void zeub_handle_time(const struct time_state *time) {
+    const uint32_t rem_ms = (60 - time->time.tm_sec) * 1000 - time->frag * 1000 / 256;
+    LOG_WRN("rem ms %u", rem_ms);
+    disp_update_time(time, true);
+    k_work_schedule(&minute_timer_sync_work, K_MSEC(rem_ms));
+}
+
+static void minute_timer_sync_work_cb(struct k_work *work) {
+    int32_t skew_ms = k_timer_remaining_get(&minute_timer);
+    if (skew_ms > 30000) {
+        skew_ms = skew_ms - 60000;
+    }
+    LOG_INF("skew ms %d", skew_ms);
+    k_timer_start(&minute_timer, K_NO_WAIT, K_MINUTES(1));
+}
+
+static void minute_timer_cb() {
+    struct time_state now;
+    int ret = time_get_unix_time(&now);
+    if (ret < 0) {
+        LOG_ERR("get time %d", ret);
+        return;
+    }
+    disp_update_time(&now, false);
+    strip_handle_time(&now);
+}
+
 int main() {
     int ret;
-    ret = led_set_brightness(led_strip, 0, WHITE_BRIGHT);
-    if (ret < 0) {
-        LOG_ERR("white 0 %d", ret);
-        return ret;
-    }
-    ret = led_set_brightness(led_strip, 1, YELLOW_BRIGHT);
-    if (ret < 0) {
-        LOG_ERR("yellow 0 %d", ret);
-        return ret;
-    }
 
     kscan_config(roller, roller_cb);
     kscan_enable_callback(roller);

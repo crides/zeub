@@ -6,12 +6,13 @@
 
 #define DT_DRV_COMPAT zeub_kscan_gpio_direct
 
-#include <device.h>
-#include <drivers/kscan.h>
-#include <drivers/gpio.h>
-#include <logging/log.h>
+#include <zephyr/device.h>
+#include <zephyr/kernel.h>
+#include <zephyr/drivers/kscan.h>
+#include <zephyr/drivers/gpio.h>
+#include <zephyr/logging/log.h>
 
-LOG_MODULE_DECLARE(zeub, CONFIG_ZEUB_LOG_LEVEL);
+LOG_MODULE_REGISTER(zeub_kscan, CONFIG_ZEUB_KSCAN_LOG_LEVEL);
 
 #if DT_HAS_COMPAT_STATUS_OKAY(DT_DRV_COMPAT)
 
@@ -166,7 +167,7 @@ static const struct kscan_driver_api gpio_driver_api = {
         return 0;                                                                                  \
     }                                                                                              \
     static const struct kscan_gpio_config kscan_gpio_config_##n = {                                \
-        .input_specs = {UTIL_LISTIFY(INST_INPUT_LEN(n), KSCAN_DIRECT_INPUT_ITEM, n)},              \
+        .input_specs = {LISTIFY(INST_INPUT_LEN(n), KSCAN_DIRECT_INPUT_ITEM, (), n)},              \
         .num_of_inputs = INST_INPUT_LEN(n),                                                        \
         .debounce_period = DT_INST_PROP(n, debounce_period)};                                      \
     DEVICE_DT_INST_DEFINE(n, kscan_gpio_init_##n, NULL, &kscan_gpio_data_##n,                      \

@@ -11,4 +11,4 @@ project(zeub)
 # Add your source file to the "app" target. This must come after
 # find_package(Zephyr) which defines the target.
 target_include_directories(app PRIVATE include)
-target_sources(app PRIVATE src/main.c src/disp.c src/iosevka_16.c src/ble.c)
+target_sources(app PRIVATE src/main.c src/disp.c src/iosevka_16.c src/ble.c src/time.c src/strip.c)

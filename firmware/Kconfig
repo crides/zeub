@@ -16,6 +16,7 @@ config ZEUB_UI
     select LVGL
 	select LV_USE_THEME_BASIC
     select LV_USE_LABEL
+    select LED_STRIP
 
 config ZEUB_BLE
     bool
@@ -51,14 +52,6 @@ config RTT_LOG
     select USE_SEGGER_RTT
     select RTT_CONSOLE
 
-config NEOPIXEL
-    bool "Enable neopixel"
-    default y
-    select SPI
-    select NRFX_SPIM0
-    select LED_STRIP
-    select WS2812_STRIP
-
 config ZEUB_DISPLAY_THREAD_STACK_SIZE
     int "Stack size for UI thread/queue"
     default 2048
@@ -69,15 +62,15 @@ config ZEUB_DISPLAY_THREAD_PRIORITY
 
 config ZEUB_UI_INIT_PRIORITY
     int "Init priority for UI stuff"
-    default 60
+    default 70
 
 config TEMP_UPDATE_INTERVAL_MS
     int "Interval in ms to update temperature display"
     default 3000
 
-config TIME_UPDATE_INTERVAL_S
-    int "Interval in seconds to update temperature display"
-    default 10
+config TIME_UPDATE_INTERVAL_H
+    int "(Minimum) Interval in hours to update time from CTS"
+    default 2
 
 # config LVGL_FONT_MONTSERRAT_16
 #     default y
@@ -90,13 +83,24 @@ config BLE_INIT_PRIORITY
 	int "BLE Init Priority"
 	default 50
 
+config TIME_INIT_PRIORITY
+	int "Time sync init Priority"
+	default 60
+
+config STRIP_CMD_MAX_LEN
+    int "Maximum number of led strip commands"
+    default 256
+
+config PINCTRL
+    default y
+
 DT_OLED_PATH := $(dt_nodelabel_path,oled)
 
-config LV_Z_HOR_RES_MAX
-    default $(dt_node_int_prop_int,$(DT_OLED_PATH),width)
+# config LV_HOR_RES
+#     default $(dt_node_int_prop_int,$(DT_OLED_PATH),width)
 
-config LV_Z_VER_RES_MAX
-    default $(dt_node_int_prop_int,$(DT_OLED_PATH),height)
+# config LV_VER_RES
+#     default $(dt_node_int_prop_int,$(DT_OLED_PATH),height)
 
 module = ZEUB
 module-str = zeub

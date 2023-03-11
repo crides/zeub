@@ -2,7 +2,12 @@
 # SPDX-License-Identifier: MIT
 
 rsource "ec11/Kconfig"
+rsource "is31/Kconfig"
 rsource "battery/Kconfig.defconfig"
+
+module = ZEUB_KSCAN
+module-str = zeub-kscan
+source "subsys/logging/Kconfig.template.log_config"
 
 config ZEUB_KSCAN_INIT_PRIORITY
 	int "Keyboard scan driver init priority"

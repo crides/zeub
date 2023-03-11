@@ -6,10 +6,10 @@
 
 #pragma once
 
-#include <device.h>
-#include <drivers/gpio.h>
-#include <drivers/kscan.h>
-#include <sys/util.h>
+#include <zephyr/device.h>
+#include <zephyr/drivers/gpio.h>
+#include <zephyr/drivers/kscan.h>
+#include <zephyr/sys/util.h>
 
 struct ec11_config {
     const struct gpio_dt_spec a_gpio, b_gpio;
