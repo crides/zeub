@@ -6,5 +6,5 @@ zephyr_library_include_directories(${CMAKE_SOURCE_DIR}/include)
 
 add_subdirectory(ec11)
 add_subdirectory(battery)
-# add_subdirectory(is31)
+add_subdirectory(is31)
 zephyr_library_sources(kscan_gpio_direct.c)
