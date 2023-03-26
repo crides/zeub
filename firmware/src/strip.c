@@ -77,7 +77,7 @@ static void strip_ccc_cfg_changed(const struct bt_gatt_attr *attr, uint16_t valu
     LOG_DBG("ccc cfg changed %04x", value);
 }
 
-static void proc_strip_cmds() {
+static void proc_strip_cmds(struct k_work *work) {
     /* int cmds_len = 0; */
     /* while (true) { */
     /*     const struct strip_cmd cmd = strip_cmds[cmds_len]; */
@@ -101,6 +101,7 @@ static int valid_cmds_len() {
 
 static int set_bright() {
     int ret;
+    LOG_DBG("brights: %02d %02d %02d %02d", brights[0], brights[1], brights[2], brights[3]);
     for (uint8_t i = 0; i < sizeof(brights); i ++) {
         ret = led_set_brightness(led_strip, i, brights[i]);
         if (ret < 0) {

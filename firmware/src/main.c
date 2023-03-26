@@ -58,7 +58,7 @@ static inline void buttons_cb(const struct device *dev, uint32_t row, uint32_t c
 }
 
 static inline void roller_cb(const struct device *dev, uint32_t row, uint32_t col, bool pressed) {
-    LOG_DBG("roller %u %d", col, pressed);
+    /* LOG_DBG("roller %u %d", col, pressed); */
     handle_button(dev, col + ROLL_UP, pressed);
 }
 

@@ -16,7 +16,7 @@ LOG_MODULE_REGISTER(zeub_ble, CONFIG_ZEUB_LOG_LEVEL);
 
 static struct bt_conn *time_server_conn = NULL;
 
-#define ZEUB_BLE_PARAM BT_LE_ADV_PARAM(BT_LE_ADV_OPT_CONNECTABLE | BT_LE_ADV_OPT_ONE_TIME, \
+#define ZEUB_BLE_PARAM BT_LE_ADV_PARAM(BT_LE_ADV_OPT_CONNECTABLE, \
         BT_GAP_ADV_SLOW_INT_MIN, BT_GAP_ADV_SLOW_INT_MAX, NULL)
 static const struct bt_data zeub_ad_data[] = {
     BT_DATA(BT_DATA_NAME_COMPLETE, "Zeub", 4),
