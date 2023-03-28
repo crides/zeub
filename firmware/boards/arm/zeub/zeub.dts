@@ -248,10 +248,23 @@ zephyr_udc0: &usbd {
 		compatible = "zephyr,cdc-acm-uart";
 		label = "CDC_ACM_0";
 	};
+
+	hp_0 {
+		compatible = "usb-audio-hp";
+		feature-mute;
+		channel-l;
+		channel-r;
+	};
 };
 
 &pwm0 {
     status = "okay";
     pinctrl-0 = <&pwm0_def>;
     pinctrl-names = "default";
+};
+
+i2s_tx: &i2s0 {
+	status = "okay";
+	pinctrl-0 = <&i2s0_default_alt>;
+	pinctrl-names = "default";
 };
